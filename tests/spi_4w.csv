@@ -1,0 +1,5 @@
+Pattern Name,MODE,Address,Data,R/W,OpCode
+Fornax_4W_Test,SPI_4W,0x100,0x12,W,
+,,0x101,0xcc,W,
+,,0x102,0x0,R,
+
