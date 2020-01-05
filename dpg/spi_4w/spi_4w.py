@@ -1,5 +1,5 @@
 import csv
-from . import spi_4w_vectors
+from dpg.spi_4w import spi_4w_vectors
 
 class DigitalPatternGenerator_SPI4W:
     def __init__(self):
