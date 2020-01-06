@@ -1,6 +1,6 @@
 import unittest
 
-from dpg import to_statements
+from dpg.pattern_vector import to_statements
 from dpg.spi_4w import spi_4w_vectors
 from dpg.spi_4w.spi_4w import DigitalPatternGenerator_SPI4W
 

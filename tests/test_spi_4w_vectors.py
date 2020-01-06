@@ -1,7 +1,6 @@
 import unittest
 
-from dpg import to_statements
-from dpg.pattern_vector import PatternVector
+from dpg.pattern_vector import PatternVector, to_statements
 from dpg.spi_4w.spi_4w_vectors import *
 
 class Test_spi_4w_vectors(unittest.TestCase):
