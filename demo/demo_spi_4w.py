@@ -15,5 +15,5 @@ from dpg.digital_pattern_generator import DigitalPatternGenerator
 if __name__ == '__main__':
     config_file = os.path.join(script_dir, 'config_spi_4w.csv')
     pattern_file = os.path.join(script_dir, 'pattern_spi_4w.digipatsrc')
-    dpg = DigitalPatternGenerator(config_file, pattern_file)
-    print(dpg.generate_digital_pattern_src(5))
+    dpg = DigitalPatternGenerator(config_file, pattern_file, 5)
+    print(dpg.generate_digital_pattern_src())
