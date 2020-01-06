@@ -1,0 +1,5 @@
+{
+    "pattern_name" : "demo_spi_4w",
+    "timeset_name" : "BS_Timing",
+    "timeset_between_frames" : 5
+}

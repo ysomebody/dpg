@@ -11,45 +11,48 @@ class DigitalPatternGenerator_SPI4W:
         self.timeset_name = pattern_config['timeset_name']
         self.timeset_between_frames = pattern_config['timeset_between_frames']
 
-    def generate(self, configs):
-        vectors = spi_4w_vectors.pattern_start(self.timeset_name)
-        for config in configs:
-            op = self.op_map[config['R/W']]
-            vectors += spi_4w_vectors.wait(self.timeset_between_frames)
-            vectors += op(config)
-        vectors += spi_4w_vectors.pattern_end()
-        return vectors
+    def generate(self, pattern_content):
+        vectors = []
+        for row in pattern_content:
+            if vectors:
+                vectors += spi_4w_vectors.wait(self.timeset_between_frames)
+            op = self.op_map[row['R/W']]
+            vectors += op(row)
+        return (
+              spi_4w_vectors.pattern_start(self.timeset_name)
+            + vectors
+            + spi_4w_vectors.pattern_end()
+        )
 
-
-    def _write(self, config):
+    def _write(self, content_row):
         return (
               spi_4w_vectors.frame_start()
             + spi_4w_vectors.write_cmd()
-            + spi_4w_vectors.write_address(config['Address'])
-            + spi_4w_vectors.write_data(config['Data'])
+            + spi_4w_vectors.write_address(content_row['Address'])
+            + spi_4w_vectors.write_data(content_row['Data'])
             + spi_4w_vectors.frame_end()
         )
 
-    def _read(self, config):
+    def _read(self, content_row):
         return (
-              self._read_collect(config)
+              self._read_collect(content_row)
             + spi_4w_vectors.wait(10)
-            + self._read_capture(config)
+            + self._read_capture()
         )
 
-    def _read_write(self, config):
+    def _read_write(self, content_row):
         raise NotImplementedError
 
-    def _read_collect(self, config):
+    def _read_collect(self, content_row):
         return (
               spi_4w_vectors.frame_start()
             + spi_4w_vectors.read_collect_cmd()
-            + spi_4w_vectors.write_address(config['Address'])
+            + spi_4w_vectors.write_address(content_row['Address'])
             + spi_4w_vectors.write_data('0x0')
             + spi_4w_vectors.frame_end()
         )
         
-    def _read_capture(self, config):
+    def _read_capture(self):
         return (
               spi_4w_vectors.capture_start()
             + spi_4w_vectors.frame_start()
@@ -61,8 +64,4 @@ class DigitalPatternGenerator_SPI4W:
         )
 
 if __name__ == "__main__":
-    with open(r'testdata\spi_4w.csv') as csvfile:
-        configs = csv.DictReader(csvfile, delimiter=',')
-        vectors = DigitalPatternGenerator_SPI4W(3).generate(configs)
-        print('\n'.join(v.get_statement() for v in vectors))
-   
+    pass

@@ -1,4 +1,0 @@
-Pattern Name,MODE,Address,Data,R/W,OpCode
-SPI_4W_Demo,SPI_4W,0x101,0xcc,W,
-,,0x102,0x0,R,
-
