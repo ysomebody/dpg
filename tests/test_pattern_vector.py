@@ -9,11 +9,13 @@ class Test_PatternVector(unittest.TestCase):
 
     def test_to_statements(self):
         vectors = [
-            PatternVector(['1', 'X'], 'this is  a comment', 'opcode1'),
+            PatternVector(['1', 'X'], 'this is a comment', 'opcode1'),
             PatternVector(['V', '0'], 'another comment', 'opcode2'),
         ]
-        expected_statement = 'opcode1        	-              	1	X; // this is a comment'
-        expected_statement = 'opcode2        	-              	V	0; // another comment'
+        expected_statement = '\n'.join([
+            'opcode1        	-              	1	X; // this is a comment',
+            'opcode2        	-              	V	0; // another comment'
+        ])
         self.assertEqual(to_statements(vectors), expected_statement)
 
 if __name__ == '__main__':
