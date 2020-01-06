@@ -2,17 +2,20 @@ import csv
 from dpg.spi_4w import spi_4w_vectors
 
 class DigitalPatternGenerator_SPI4W:
-    def __init__(self):
+    def __init__(self, timeset_between_frames):
         self.op_map = {
             'R' : self._read,
             'W' : self._write,
             'R/W' : self._read_write
         }
+        self.timeset_between_frames = timeset_between_frames
 
     def generate(self, configs):
         vectors = []
         for config in configs:
             op = self.op_map[config['R/W']]
+            if vectors: # insert several cycles between frames
+                vectors.extend(spi_4w_vectors.wait(self.timeset_between_frames))
             vectors.extend(op(config))
         return vectors
 
@@ -58,6 +61,6 @@ class DigitalPatternGenerator_SPI4W:
 if __name__ == "__main__":
     with open(r'testdata\spi_4w.csv') as csvfile:
         configs = csv.DictReader(csvfile, delimiter=',')
-        vectors = DigitalPatternGenerator_SPI4W().generate(configs)
+        vectors = DigitalPatternGenerator_SPI4W(3).generate(configs)
         print('\n'.join(v.get_statement() for v in vectors))
    
