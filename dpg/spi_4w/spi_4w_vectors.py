@@ -1,4 +1,4 @@
-from ..pattern_vector import PatternVector
+from dpg.pattern_vector import PatternVector
 
 def pattern_start(timeset_name):
     return [PatternVector(['1', '0', 'X', '0'], comment='Start of the pattern', timeset=timeset_name)]
