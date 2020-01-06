@@ -2,22 +2,24 @@ import csv
 from dpg.spi_4w import spi_4w_vectors
 
 class DigitalPatternGenerator_SPI4W:
-    def __init__(self, timeset_between_frames):
+    def __init__(self, pattern_config):
         self.op_map = {
             'R' : self._read,
             'W' : self._write,
             'R/W' : self._read_write
         }
-        self.timeset_between_frames = timeset_between_frames
+        self.timeset_name = pattern_config['timeset_name']
+        self.timeset_between_frames = pattern_config['timeset_between_frames']
 
     def generate(self, configs):
-        vectors = []
+        vectors = spi_4w_vectors.pattern_start(self.timeset_name)
         for config in configs:
             op = self.op_map[config['R/W']]
-            if vectors: # insert several cycles between frames
-                vectors.extend(spi_4w_vectors.wait(self.timeset_between_frames))
-            vectors.extend(op(config))
+            vectors += spi_4w_vectors.wait(self.timeset_between_frames)
+            vectors += op(config)
+        vectors += spi_4w_vectors.pattern_end()
         return vectors
+
 
     def _write(self, config):
         return (

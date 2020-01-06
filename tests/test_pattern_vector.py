@@ -3,8 +3,13 @@ from dpg.pattern_vector import PatternVector, to_statements
 
 class Test_PatternVector(unittest.TestCase):
     def test_get_statement(self):
-        vector = PatternVector(['1', 'X'], 'this is comment', 'opcode')
-        expected_statement = 'opcode         	-              	1	X; // this is comment'
+        vector = PatternVector(['1', 'X'], 'this is comment', 'opcode', 'timeset0')
+        expected_statement = 'opcode         	timeset0       	1	X; // this is comment'
+        self.assertEqual(vector.get_statement(), expected_statement)
+        
+    def test_get_statement_default_params(self):
+        vector = PatternVector(['1', 'X'])
+        expected_statement = '               	-              	1	X;'
         self.assertEqual(vector.get_statement(), expected_statement)
 
     def test_to_statements(self):
