@@ -27,7 +27,7 @@ class Test_DigitalPatternGenerator_Constructor(unittest.TestCase):
 
     def test_init_fail(self):
         with self.assertRaises(Exception) as ctx:
-            dpg = DigitalPatternGenerator()
+            _ = DigitalPatternGenerator()
         self.assertIn('not specified', str(ctx.exception))
 
 class Test_DigitalPatternGenerator(unittest.TestCase):
