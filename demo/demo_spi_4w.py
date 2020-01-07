@@ -17,4 +17,4 @@ if __name__ == '__main__':
     content_file = os.path.join(script_dir, 'content_spi_4w.csv')
     pattern_file = os.path.join(script_dir, 'pattern_spi_4w.digipatsrc')
     dpg = DigitalPatternGenerator(config_file, content_file)
-    print(dpg.generate_digital_pattern_string())
+    print(dpg.generate_digital_pattern_source_string())

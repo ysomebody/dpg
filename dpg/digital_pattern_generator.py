@@ -1,7 +1,7 @@
 import os
 import csv
 import json
-from dpg.spi_4w.spi_4w import DigitalPatternGenerator_SPI4W
+import importlib
 
 class DigitalPatternGenerator:
     def __init__(self, config_file=None, config=None, content=None):
@@ -33,7 +33,8 @@ class DigitalPatternGenerator:
         pass
 
     def _generate_content_statements(self, config, content):
-        dpg = DigitalPatternGenerator_SPI4W(config)
+        dpg_class = self._get_generator(config['protocol'])
+        dpg = dpg_class(config)
         vectors = dpg.generate(content)
         return '\n'.join('\t' + v.get_statement() for v in vectors)
 
@@ -45,6 +46,13 @@ class DigitalPatternGenerator:
             f'pattern {pattern_name} ({pinlist_str})',
              '{'
         ])
+
+    def _get_generator(self, generator_name):
+        package_name = 'dpg.' + generator_name.lower()
+        module_name = 'digital_pattern_generator_' + generator_name.lower()
+        class_name = 'DigitalPatternGenerator_' + generator_name
+        module = importlib.import_module(package_name + '.' + module_name)
+        return getattr(module, class_name)
 
 if __name__ == '__main__':
     pass

@@ -2,7 +2,7 @@ import unittest
 
 from dpg.pattern_vector import to_statements
 from dpg.spi_4w import spi_4w_vectors
-from dpg.spi_4w.spi_4w import DigitalPatternGenerator_SPI4W
+from dpg.spi_4w.digital_pattern_generator_spi_4w import DigitalPatternGenerator_SPI_4W
 
 
 class Test_DigitalPatternGenerator_SPI4W(unittest.TestCase):
@@ -15,7 +15,7 @@ class Test_DigitalPatternGenerator_SPI4W(unittest.TestCase):
             'timeset_between_frames' : self.timeset_between_frames,
             'timeset_name' : self.timeset_name
             }
-        self.dpg = DigitalPatternGenerator_SPI4W(config)
+        self.dpg = DigitalPatternGenerator_SPI_4W(config)
 
     def test_generate_ok(self):
         contents = [

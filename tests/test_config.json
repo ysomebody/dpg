@@ -1,7 +1,7 @@
 {
+    "protocol" : "SPI_4W",
     "pattern_name" : "Test_Pattern",
-    "timeset_name" : "Test_TS",
+    "timeset_name": "Timeset_Test",
     "pinlist" : ["PinA", "PinB"],
-    "timeset_between_frames" : 2,
     "content_file" : "test_content.csv"
 }

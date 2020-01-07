@@ -1,7 +1,7 @@
 import csv
 from dpg.spi_4w import spi_4w_vectors
 
-class DigitalPatternGenerator_SPI4W:
+class DigitalPatternGenerator_SPI_4W:
     def __init__(self, pattern_config):
         self.op_map = {
             'R' : self._read,
@@ -31,7 +31,7 @@ class DigitalPatternGenerator_SPI4W:
             + spi_4w_vectors.write_address(content_row['Address'])
             + spi_4w_vectors.write_data(content_row['Data'])
             + spi_4w_vectors.frame_end()
-        )
+        ) 
 
     def _read(self, content_row):
         return (
