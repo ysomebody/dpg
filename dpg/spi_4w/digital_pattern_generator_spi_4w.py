@@ -1,4 +1,3 @@
-import csv
 from dpg.spi_4w import spi_4w_vectors
 
 class DigitalPatternGenerator_SPI_4W:
