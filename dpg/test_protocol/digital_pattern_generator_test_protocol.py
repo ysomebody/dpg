@@ -1,66 +1,39 @@
-import csv
-from dpg.spi_4w import spi_4w_vectors
+from dpg.pattern_vector import PatternVector
 
-class DigitalPatternGenerator_SPI_4W:
+# A mock up protocol for testing
+# Pins: R_W, Data_In, Data_Out
+# Data_In drives 8 bits of data when R_W is 1
+# Data_Out reads 8 bits of data when R_W is 0
+
+class DigitalPatternGenerator_Test_Protocol:
     def __init__(self, pattern_config):
-        self.op_map = {
-            'R' : self._read,
-            'W' : self._write,
-            'R/W' : self._read_write
-        }
         self.timeset_name = pattern_config['timeset_name']
-        self.timeset_between_frames = pattern_config['timeset_between_frames']
 
     def generate(self, pattern_content):
-        vectors = []
+        vectors = [PatternVector(['0', 'X', 'X'], comment='Pattern Start', timeset=self.timeset_name)]
         for row in pattern_content:
-            if vectors:
-                vectors += spi_4w_vectors.wait(self.timeset_between_frames)
-            op = self.op_map[row['R/W']]
-            vectors += op(row)
-        return (
-              spi_4w_vectors.pattern_start(self.timeset_name)
-            + vectors
-            + spi_4w_vectors.pattern_end()
-        )
+            cmd = row['Command'].lower()
+            if cmd == 'write':
+                vectors += self._write(row['Data'])
+            elif cmd == 'read':
+                vectors += self._read()
+            else:
+                raise Exception(f"Invalid command {cmd}")
+        vectors += [PatternVector(['0', 'X', 'X'], comment='Pattern End', opcode='halt')]
+        return vectors
 
-    def _write(self, content_row):
-        return (
-              spi_4w_vectors.frame_start()
-            + spi_4w_vectors.write_cmd()
-            + spi_4w_vectors.write_address(content_row['Address'])
-            + spi_4w_vectors.write_data(content_row['Data'])
-            + spi_4w_vectors.frame_end()
-        ) 
+    def _write(self, data):
+        bit_str = format(int(data, 0), f'08b') # convert to 8 bit string with leading 0's
+        vectors = []
+        for i in range(0, 8):
+            vectors.append(PatternVector(['1', bit_str[i], 'X'], comment=f'Write {data} (bit {i})'))
+        return vectors
 
-    def _read(self, content_row):
-        return (
-              self._read_collect(content_row)
-            + spi_4w_vectors.wait(10)
-            + self._read_capture()
-        )
-
-    def _read_write(self, content_row):
-        raise NotImplementedError
-
-    def _read_collect(self, content_row):
-        return (
-              spi_4w_vectors.frame_start()
-            + spi_4w_vectors.read_collect_cmd()
-            + spi_4w_vectors.write_address(content_row['Address'])
-            + spi_4w_vectors.write_data('0x0')
-            + spi_4w_vectors.frame_end()
-        )
-        
-    def _read_capture(self):
-        return (
-              spi_4w_vectors.capture_start()
-            + spi_4w_vectors.frame_start()
-            + spi_4w_vectors.read_value_cmd()
-            + spi_4w_vectors.write_address('0x0')
-            + spi_4w_vectors.read_data()
-            + spi_4w_vectors.capture_stop()
-            + spi_4w_vectors.frame_end()
+    def _read(self):
+        return ([PatternVector(['0', 'X', 'X'], opcode='capture_start(DATA_Read)')]
+              # reading 8 bits
+              + [PatternVector(['0', 'X', 'V'], comment='Read', opcode='capture')] * 8
+              + [PatternVector(['0', 'X', 'X'], opcode='capture_stop')]
         )
 
 if __name__ == "__main__":

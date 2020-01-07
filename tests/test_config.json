@@ -1,7 +1,7 @@
 {
-    "protocol" : "SPI_4W",
+    "protocol" : "Test_Protocol",
     "pattern_name" : "Test_Pattern",
     "timeset_name": "Timeset_Test",
-    "pinlist" : ["PinA", "PinB"],
+    "pinlist" : ["R_W", "Data_In", "Data_Out"],
     "content_file" : "test_content.csv"
 }
