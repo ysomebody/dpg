@@ -1,0 +1,7 @@
+{
+    "pattern_name" : "Test_Pattern",
+    "timeset_name" : "Test_TS",
+    "pinlist" : ["PinA", "PinB"],
+    "timeset_between_frames" : 2,
+    "content_file" : "test_content.csv"
+}

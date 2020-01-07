@@ -1,5 +1,7 @@
 {
     "pattern_name" : "demo_spi_4w",
     "timeset_name" : "BS_Timing",
-    "timeset_between_frames" : 5
+    "pinlist" : ["SPI_CS", "SPI_DATA_IN", "SPI_DATA_OUT", "SPI_CLK_IN"],
+    "timeset_between_frames" : 5,
+    "content_file" : "config_spi_4w.csv"
 }
