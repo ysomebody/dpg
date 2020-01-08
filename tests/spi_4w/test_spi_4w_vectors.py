@@ -35,19 +35,9 @@ class Test_spi_4w_vectors(unittest.TestCase):
         expected = PatternVector(['1', '0', 'X', '0'], opcode='capture_start(DATA_Read)').get_statement()
         self.assertEqual(result, expected)
 
-    def capture_stop(self):
+    def test_capture_stop(self):
         result = to_statements(capture_stop())
         expected = PatternVector(['1', '0', 'X', '1'], opcode='capture_stop').get_statement()
-        self.assertEqual(result, expected)
-
-    def test_write_bits(self):
-        result = to_statements(write_bits('10XV', 'test'))
-        expected = to_statements([
-            PatternVector(['0', '1', 'X', '1'], comment='test'),
-            PatternVector(['0', '0', 'X', '1'], comment='test'),
-            PatternVector(['0', 'X', 'X', '1'], comment='test'),
-            PatternVector(['0', 'V', 'X', '1'], comment='test'),
-        ])
         self.assertEqual(result, expected)
 
     def test_write_cmd(self):
@@ -122,6 +112,7 @@ class Test_spi_4w_vectors(unittest.TestCase):
             PatternVector(['0', '0', 'X', '1'], comment='Data 0xabcd'),
             PatternVector(['0', '1', 'X', '1'], comment='Data 0xabcd'),
         ])
+        self.maxDiff = None
         self.assertEqual(result, expected)
 
     def test_read_data(self):
