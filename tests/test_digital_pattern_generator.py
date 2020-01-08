@@ -64,7 +64,6 @@ pattern Test_Pattern (R_W,Data_In,Data_Out)
 }"""
         self.maxDiff = None
         self.assertEqual(src, expected_src)
-        # TODO: Change to a mock generator
 
 if __name__ == '__main__':
     unittest.main()
