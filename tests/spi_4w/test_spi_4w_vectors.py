@@ -4,6 +4,17 @@ from dpg.pattern_vector import PatternVector, to_statements
 from dpg.spi_4w.spi_4w_vectors import *
 
 class Test_spi_4w_vectors(unittest.TestCase):
+
+    def test_pattern_start(self):
+        result = to_statements(pattern_start('Test_Timeset'))
+        expected = PatternVector(['1', '0', 'X', '0'], comment='Start of the pattern', timeset='Test_Timeset').get_statement()
+        self.assertEqual(result, expected)
+
+    def test_pattern_end(self):
+        result = to_statements(pattern_end())
+        expected = PatternVector(['X', 'X', 'X', 'X'], comment='End of the pattern', opcode='halt').get_statement()
+        self.assertEqual(result, expected)
+
     def test_frame_start(self):
         result = to_statements(frame_start())
         expected = PatternVector(['1', '0', 'X', '0'], comment='Start of SPI 4W Frame', opcode='repeat(5)').get_statement()
