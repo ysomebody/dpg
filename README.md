@@ -20,3 +20,5 @@
 2. address is 11 bits? 
 3. SPI4WReadCaptureFrame is 0?
 4. Read capture start and stop can be combined with frame start/end?
+5. SPI opcode not implemented
+6. SPI R/W not implemented
