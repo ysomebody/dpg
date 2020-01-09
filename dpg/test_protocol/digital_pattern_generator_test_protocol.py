@@ -1,5 +1,5 @@
 from dpg.pattern_vector import PatternVector
-from dpg.utils import int_str_to_bit_str
+from dpg.utils import int_to_bits_msb_first
 
 # A mock up protocol for testing
 # Pins: R_W, Data_In, Data_Out
@@ -24,7 +24,7 @@ class DigitalPatternGenerator_Test_Protocol:
         return vectors
 
     def _write(self, data):
-        bit_str = int_str_to_bit_str(data, 8)
+        bit_str = int_to_bits_msb_first(data, 8)
         vectors = []
         for i in range(0, 8):
             vectors.append(PatternVector(['1', bit_str[i], 'X'], comment=f'Write {data} (bit {i})'))

@@ -1,5 +1,5 @@
 from dpg.pattern_vector import PatternVector
-from dpg.utils import int_str_to_bit_str
+from dpg.utils import int_to_bits_msb_first
 
 def pattern_start(timeset_name):
     return [PatternVector(['1', '0', 'X', '0'], comment='Start of the pattern', timeset=timeset_name)]
@@ -36,11 +36,11 @@ def read_value_cmd():
 
 def write_address(addr_str):
     # Address is 11 bits
-    return _write_bits(int_str_to_bit_str(addr_str, 11), comment=f'Address {addr_str}')
+    return _write_bits(int_to_bits_msb_first(addr_str, 11), comment=f'Address {addr_str}')
 
 def write_data(data_str):
     # Data is 16 bits
-    return _write_bits(int_str_to_bit_str(data_str, 16), comment=f'Data {data_str}')
+    return _write_bits(int_to_bits_msb_first(data_str, 16), comment=f'Data {data_str}')
 
 def read_data():
     # capture 16 bits of data
