@@ -22,3 +22,6 @@
 4. Read capture start and stop can be combined with frame start/end?
 5. SPI opcode not implemented
 6. SPI R/W not implemented
+7. Check chip set id in range
+8. Check burst lenght matches data.
+8. BMW R, R/W not implemented
